@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BAnimator_WinForms.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="HotKeys_Bone_Rotate" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">82</Value>
+    </Setting>
+    <Setting Name="HotKeys_Bone_Stretch" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">83</Value>
+    </Setting>
+    <Setting Name="HotKeys_Bone_FreeEdit" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">70</Value>
+    </Setting>
+    <Setting Name="HotKeys_Cancel" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">27</Value>
+    </Setting>
+    <Setting Name="HotKeys_Bone_Shift" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">68</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

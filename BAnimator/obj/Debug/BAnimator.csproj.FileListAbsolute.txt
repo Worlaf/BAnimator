@@ -1,0 +1,5 @@
+c:\users\worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator\bin\Debug\BAnimator.dll
+c:\users\worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator\bin\Debug\BAnimator.pdb
+c:\users\worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator\obj\Debug\BAnimator.csprojResolveAssemblyReference.cache
+c:\users\worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator\obj\Debug\BAnimator.dll
+c:\users\worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator\obj\Debug\BAnimator.pdb

@@ -1,0 +1,11 @@
+c:\users\worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\bin\Debug\BAnimator WinForms.exe.config
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\bin\Debug\BAnimator WinForms.exe
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\bin\Debug\BAnimator WinForms.pdb
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\bin\Debug\BAnimator.dll
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\bin\Debug\BAnimator.pdb
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\obj\Debug\BAnimator WinForms.csprojResolveAssemblyReference.cache
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\obj\Debug\BAnimator_WinForms.frmMain.resources
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\obj\Debug\BAnimator_WinForms.Properties.Resources.resources
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\obj\Debug\BAnimator WinForms.csproj.GenerateResource.Cache
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\obj\Debug\BAnimator WinForms.exe
+C:\Users\Worlaf\documents\visual studio 2012\Projects\BAnimator\BAnimator WinForms\obj\Debug\BAnimator WinForms.pdb

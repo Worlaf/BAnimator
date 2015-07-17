@@ -42,7 +42,7 @@ namespace BAnimator
                 {
                     sortedList.Insert(0, graphics);
                 }
-                else if (sortedList[sortedList.Count - 1].Order > graphics.Order)
+                else if (sortedList[sortedList.Count - 1].Order >= graphics.Order)
                 {
                     sortedList.Add(graphics);
                 }
@@ -50,9 +50,10 @@ namespace BAnimator
                 {
                     for (int i = 0; i < sortedList.Count - 1; i++)
                     {
-                        if (sortedList[i].Order > graphics.Order && sortedList[i + 1].Order < graphics.Order)
+                        if (sortedList[i].Order >= graphics.Order && sortedList[i + 1].Order <= graphics.Order)
                         {
                             sortedList.Insert(i + 1, graphics);
+                            break;
                         }
                     }
                 }
@@ -98,8 +99,10 @@ namespace BAnimator
             for (int i = 0; i < sortedList.Count; i++)
             {
                 item = sortedList[i];
-                if (!item.Bone.Visible || item.Group != null && !item.Group.Visible)
+
+                if (!item.Parent.Visible || item.Group != null && !item.Group.Visible)
                     continue;
+                item.Update();
                 item.Draw(graph, rootPos);
             }
         }

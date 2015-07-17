@@ -15,6 +15,7 @@ namespace BAnimator_WinForms.UserInterface
 
         public static void DrawBone(Bone b, Graphics graph, PointF rootPos, bool selected = false)
         {
+           
             if (b.IsRoot)
             {
                 if (selected)
@@ -66,12 +67,106 @@ namespace BAnimator_WinForms.UserInterface
             }
         }
 
+        public static void DrawControls(Graphics graph, PointF rootPos, IEditable o, DrawParametres p)
+        {
+            PointV p0 = new PointV(o.Location);
+            PointV pp = new PointV(o.ParentPoint);
+            PointV p0r, ppr;
+            p0r = new PointV(PointV.Add(rootPos, p0.Point));
+            ppr = new PointV(PointV.Add(rootPos, pp.Point));
+            PointF p0f = p0r.Point;
+            PointF ppf = ppr.Point;
+            Pen linePen = new Pen(Color.Gray);
+            linePen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            graph.DrawLine(linePen, p0f, ppf);
+
+            graph.DrawEllipse(Pens.Blue, ppf.X - 2, ppf.Y - 2, 4, 4);
+            float x1Size = 20;
+            graph.DrawLine(Pens.Blue, p0f.X, p0f.Y - x1Size, p0f.X, p0f.Y + x1Size);
+            graph.DrawLine(Pens.Blue, p0f.X - x1Size, p0f.Y, p0f.X + x1Size, p0f.Y);
+
+            if (o is BoneImage)
+            {
+                
+            }
+
+            PointV p1;
+            PointV p2;
+            if ((p & DrawParametres.DrawAngleCtl) == DrawParametres.DrawAngleCtl/* ||
+                        (p & DrawParametres.DrawFreeEditCtl) == DrawParametres.DrawFreeEditCtl*/)
+            {
+                Pen pen = new Pen(Color.Green);
+                int r = 20;
+                pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+                pen.Width = 5f;
+                p2 = new PointV(o.AbsoluteAngle, 50, true);
+                p2 = p2.Add(rootPos).Add(p0);
+                float k = (float)(180 / Math.PI);
+                graph.DrawArc(pen, new RectangleF((float)p2.X - r, (float)p2.Y - r, r * 2, r * 2),
+                  (float)o.AbsoluteAngle * k, 90);
+                graph.DrawArc(pen, new RectangleF((float)p2.X - r, (float)p2.Y - r, r * 2, r * 2),
+                  (float)o.AbsoluteAngle * k, -90);
+            }
+            if ((p & DrawParametres.DrawShiftCtl) == DrawParametres.DrawShiftCtl)
+            {
+                int padding = 4;
+                int length = 16;
+                Pen pen = new Pen(Color.Blue);
+                pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+                pen.Width = 5f;
+                p2 = p0.Add(rootPos);
+                graph.DrawLine(pen, (float)p2.X, (float)p2.Y + padding, (float)p2.X, (float)p2.Y + padding + length);
+                graph.DrawLine(pen, (float)p2.X, (float)p2.Y - padding, (float)p2.X, (float)p2.Y - padding - length);
+                graph.DrawLine(pen, (float)p2.X + padding, (float)p2.Y, (float)p2.X + padding + length, (float)p2.Y);
+                graph.DrawLine(pen, (float)p2.X - padding, (float)p2.Y, (float)p2.X - padding - length, (float)p2.Y);
+            }
+
+
+
+        }
         public static void DrawControls(Graphics graph, PointF rootPos, Bone b, DrawParametres p)
         {
             PointV p0 = new PointV(b.StartPoint);
             PointV p3 = new PointV(b.EndPoint);
             PointV p1;
             PointV p2;
+            Pen gpen = new Pen(Color.Blue);
+            gpen.Width = 2f;
+            gpen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+            if (b is BoneGraphics)
+            {
+                PointF pp = b.ParentPoint;
+                graph.DrawEllipse(Pens.Blue, pp.X - 3, pp.Y - 3, 6, 6);
+                float psize = 5;
+                p1 = p0.Add(rootPos);
+                graph.DrawLine(Pens.Blue, (float)p1.X, (float)p1.Y - psize, (float)p1.X, (float)p1.Y + psize);
+                graph.DrawLine(Pens.Blue, (float)p1.X - psize, (float)p1.Y, (float)p1.X + psize, (float)p1.Y);
+                graph.DrawLine(gpen, p0.Add(rootPos), p3.Add(rootPos));
+
+            }
+            if (b is BoneImage)
+            {
+                PointF pp = b.ParentPoint;
+                graph.DrawEllipse(Pens.Blue, pp.X - 3, pp.Y - 3, 6, 6);
+                float psize = 5;
+                p1 = p0.Add(rootPos);
+                graph.DrawLine(Pens.Green, (float)p1.X, (float)p1.Y - psize, (float)p1.X, (float)p1.Y + psize);
+                graph.DrawLine(Pens.Green, (float)p1.X - psize, (float)p1.Y, (float)p1.X + psize, (float)p1.Y);
+                gpen.Color = Color.Green;
+                graph.DrawLine(gpen, p0.Add(rootPos), p3.Add(rootPos));
+                p1 = p3 - p0;
+                p2 = p1.Rotate(Math.PI / 2);
+                p1.Length = (b as BoneImage).Image.Height;
+                p2.Length = (b as BoneImage).Image.Width;
+                graph.DrawPolygon(Pens.Green, new PointF[]{
+                    p0.Add(rootPos),
+                    p0.Add(p2).Add(rootPos) ,
+                    p0.Add(p1).Add(p2).Add(rootPos)  ,
+                    p0.Add(p1).Add(rootPos)                  
+                                      
+                });
+            }
+            
             if ((p & DrawParametres.DrawAngleCtl) == DrawParametres.DrawAngleCtl ||
                         (p & DrawParametres.DrawFreeEditCtl) == DrawParametres.DrawFreeEditCtl)
             {

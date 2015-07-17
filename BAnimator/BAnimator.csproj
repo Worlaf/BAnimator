@@ -49,7 +49,9 @@
     <Compile Include="Character.cs" />
     <Compile Include="CharacterStateManager.cs" />
     <Compile Include="CharacterStateValue.cs" />
+    <Compile Include="GBone.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="IEditable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CharacterState.cs" />
     <Compile Include="TypeConverters\PointFTypeConverter.cs" />

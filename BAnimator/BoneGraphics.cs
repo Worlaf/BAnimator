@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace BAnimator
 {
-    public class BoneGraphics
+    public class BoneGraphics : GBone
     {
         /// <summary>
         /// Набор возможных изображений
@@ -22,48 +23,37 @@ namespace BAnimator
 
         public int Count { get { return images.Count; } }
 
-        /// <summary>
-        /// Связанная кость
-        /// </summary>
-        public Bone Bone { get; set; }
+       
+        public Character Character { get; protected set; }
 
-        /// <summary>
-        /// Угол между костью и изображением
-        /// </summary>
-        public double Angle { get; set; }
-
-        /// <summary>
-        /// Свдиг изображения
-        /// </summary>
-        public PointF Shift { get; set; }
-
-         protected int order = 0;
+        protected int order = 0;
         /// <summary>
         /// Порядок отображения
         /// </summary>
-         public int Order
-         {
-             get { return order; }
-             set
-             {
-                 if (value != order)
-                 {
-                     order = value;
-                     Parent.GraphicsManager.Resort(this);
-                 }
-             }
-         }
-       
-
-        public Character Parent { get; protected set; }
+        public int Order
+        {
+            get { return order; }
+            set
+            {
+                if (value != order)
+                {
+                    order = value;
+                    Character.GraphicsManager.Resort(this);
+                }
+            }
+        }
+         
 
         public Group Group { get; set; }
 
         public BoneGraphics(Character parent)
         {
-            Parent = parent;
+            IsRoot = false;
+            Character = parent;
             Group = null;
             Order = 0;
+            Length = 100;
+            Angle = 0;
         }
 
         public BoneImage AddImage(Bitmap bmp)
@@ -111,7 +101,7 @@ namespace BAnimator
 
         public void Draw(Graphics graph, PointF rootPos)
         {
-            if (!Bone.Visible)
+            if (!Parent.Visible)
                 return;
             if (Group != null && !Group.Visible)
                 return;
@@ -122,13 +112,13 @@ namespace BAnimator
             BoneImage bi = null;
             Bitmap bmp;
             double angle = Angle;
-            PointF shift = Shift;
+            
 
             for (int i = 0; i < images.Count; i++)
             {
                 if (images[i].UseAsDefault)
                     bi = images[i];
-                if (Parent.StateManager.CheckCharacterStateValues(images[i].States))
+                if (Character.StateManager.CheckCharacterStateValues(images[i].States))
                 {
                     bi = images[i];
                     break;
@@ -140,24 +130,36 @@ namespace BAnimator
                 return;
             }
             bmp = bi.Image;
-            angle += bi.Angle + Bone.AbsoluteAngle;
-            shift = Utilities.PointV.Add(shift, bi.Shift);
-            shift = Utilities.PointV.Add(shift, rootPos);
-            shift = Utilities.PointV.Add(shift, Bone.StartPoint);
 
-            Utilities.PointV pt1 = new Utilities.PointV(0, bmp.Height);
-            Utilities.PointV pt2 = new Utilities.PointV(bmp.Width, 0);
-            pt1 = pt1.Rotate(angle).Add(shift);
-            pt2 = pt2.Rotate(angle).Add(shift);
+            //Переделать все нахрен мы все поменяли!
+            //И при редактировании все переделать!
+            bi.Update();
+            Utilities.PointV shift = bi.StartPoint;
+            Utilities.PointV p1 = Utilities.PointV.Sub(bi.EndPoint, bi.StartPoint);
+            p1.Length = bi.Image.Width;
+            Utilities.PointV p2 = p1;
+            p1 = p1.Rotate(Math.PI / 2);
+            p2.Length = bi.Image.Height;
+            shift = shift.Add(rootPos);
+            p1 = p1.Add(rootPos).Add(bi.StartPoint);
+            p2 = p2.Add(rootPos).Add(bi.StartPoint);
 
-            PointF p1 = pt1.Point;
-            PointF p2 = pt2.Point;
-
-            graph.DrawImage(bmp, new PointF[] { shift, p2, p1 }, new Rectangle(0, 0, bmp.Width, bmp.Height), GraphicsUnit.Pixel);
-
+            int x0 = 0, y0 = bmp.Height, w = bmp.Width, h = -bmp.Height;
+            if (bi.FlipX)
+            {
+                x0 = bmp.Width;
+                w = -bmp.Width;
+            }
+            if (bi.FlipY)
+            {
+                y0 = 0;
+                h = bmp.Height;
+            }
+            graph.DrawImage(bmp, new PointF[] { shift, p1, p2 }, new Rectangle(x0, y0, w, h), GraphicsUnit.Pixel);
+            /*
             graph.DrawLine(Pens.Blue, shift, p1);
-            graph.DrawLine(Pens.Blue, shift, p2);
-
+            graph.DrawLine(Pens.Green, shift, p2);
+            */
 
         }
     }

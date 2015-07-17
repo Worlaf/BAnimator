@@ -33,6 +33,7 @@ namespace BAnimator_WinForms
             bEditor.Redraw();
             bEditor.SetBoneNode(tvwProject.Nodes.Find("BonesNode", true)[0]);
             bEditor.SetImageNode(tvwProject.Nodes.Find("ImagesNode", true)[0]);
+            bEditor.SetMainTree(tvwProject);
             tvwProject.ExpandAll();
 
             BAnimator.Character ch = BAnimator.Character.Load("character.bc");
@@ -78,15 +79,19 @@ namespace BAnimator_WinForms
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                if (e.Node.Tag is BAnimator.Bone)
+                
+                if (e.Node.Tag is BAnimator.BoneGraphics)
+                {
+                    tvwProject.SelectedNode = e.Node;
+                    ctxGraphicsMenu.Show(tvwProject.PointToScreen(e.Location));
+                }
+                else if (e.Node.Tag is BAnimator.BoneImage)
+                {
+                }
+                else if (e.Node.Tag is BAnimator.Bone)
                 {
                     tvwProject.SelectedNode = e.Node;
                     ctxBoneMenu.Show(tvwProject.PointToScreen(e.Location));
-                }
-                else if (e.Node.Tag is BAnimator.BoneGraphics)
-                {
-                    tvwProject.SelectedNode = e.Node;
-                    ctxImageMenu.Show(tvwProject.PointToScreen(e.Location));
                 }
             }
         }
@@ -149,6 +154,15 @@ namespace BAnimator_WinForms
                 {
                     bEditor.AddImage(tvwProject.SelectedNode.Tag as BAnimator.BoneGraphics, new Bitmap(openFileDialog1.FileName), false);
                 }
+            }
+        }
+
+        private void tsmRemoveGraphics_Click(object sender, EventArgs e)
+        {
+            TreeNode tn = tvwProject.SelectedNode;
+            if (tn.Tag is BAnimator.BoneGraphics)
+            {
+                bEditor.RemoveGraphics(tn.Tag as BAnimator.BoneGraphics);
             }
         }
     }

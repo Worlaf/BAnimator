@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace BAnimator
 {
-    public class Bone
+    public class Bone : IEditable
     {
         protected bool _updated = false;
         protected double angle;
@@ -85,6 +85,11 @@ namespace BAnimator
         /// Возвращает начальную точку кости
         /// </summary>
         public PointF StartPoint { get { Update(); return startPoint; } }
+
+        [Browsable(false)]
+        public PointF Location { get { return startPoint; } }
+        [Browsable(false)]
+        public PointF ParentPoint { get { return Parent.EndPoint; } }
 
         /// <summary>
         /// Возвращает конечную точку кости
@@ -213,7 +218,7 @@ namespace BAnimator
             return new Bone(this, length, angle, PointF.Empty);
         }
 
-        protected void Update()
+        public virtual void Update()
         {
             if (_updated)
                 return;

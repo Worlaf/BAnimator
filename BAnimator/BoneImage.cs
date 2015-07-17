@@ -4,27 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace BAnimator
 {
-    public class BoneImage
+
+    //Унаследовать все от кости нахрен
+    //И не париться
+    public class BoneImage : GBone
     {
         protected bool useAsDefault = false;
-        public bool UseAsDefault { get { return useAsDefault; } set { parent.SetDefaultImage(this); useAsDefault = value;  } }
+        public bool UseAsDefault { get { return useAsDefault; } set { ((BoneGraphics)Parent).SetDefaultImage(this); useAsDefault = value;  } }
+
+        public bool FlipX { get; set; }
+        public bool FlipY { get; set; }
 
         public Bitmap Image { get; set; }
 
-        public double Angle { get; set; }
-
-        public PointF Shift { get; set; }
-
         public List<CharacterStateValue> States { get; set; }
-
-        protected BoneGraphics parent;
 
         public BoneImage(BoneGraphics parent)
         {
-            this.parent = parent;
+            IsRoot = false;
+            this.Parent = parent;
+            Length = 100;
+            Angle = 0;
         }
 
         public void SetUsingAsDefault(bool u)

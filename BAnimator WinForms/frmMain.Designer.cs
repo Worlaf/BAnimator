@@ -50,17 +50,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.tsFile = new System.Windows.Forms.ToolStrip();
-            this.btnSave = new System.Windows.Forms.ToolStripButton();
-            this.btnOpen = new System.Windows.Forms.ToolStripButton();
-            this.btnNew = new System.Windows.Forms.ToolStripButton();
-            this.tsSelectMode = new System.Windows.Forms.ToolStrip();
-            this.chSelectBones = new System.Windows.Forms.ToolStripButton();
-            this.tsAnimation = new System.Windows.Forms.ToolStrip();
-            this.btnSkipToStart = new System.Windows.Forms.ToolStripButton();
-            this.btnPlayPause = new System.Windows.Forms.ToolStripButton();
-            this.btnSkipToEnd = new System.Windows.Forms.ToolStripButton();
-            this.btnRepeat = new System.Windows.Forms.ToolStripButton();
+            this.picMain = new SelectablePictureBox();
             this.tsBoneEditor = new System.Windows.Forms.ToolStrip();
             this.chBEM_Rotate = new System.Windows.Forms.ToolStripButton();
             this.btnBEM_Shift = new System.Windows.Forms.ToolStripButton();
@@ -69,6 +59,17 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnBEM_Grid = new System.Windows.Forms.ToolStripButton();
             this.btnBEM_GridSnap = new System.Windows.Forms.ToolStripButton();
+            this.tsFile = new System.Windows.Forms.ToolStrip();
+            this.btnSave = new System.Windows.Forms.ToolStripButton();
+            this.btnOpen = new System.Windows.Forms.ToolStripButton();
+            this.btnNew = new System.Windows.Forms.ToolStripButton();
+            this.tsAnimation = new System.Windows.Forms.ToolStrip();
+            this.btnSkipToStart = new System.Windows.Forms.ToolStripButton();
+            this.btnPlayPause = new System.Windows.Forms.ToolStripButton();
+            this.btnSkipToEnd = new System.Windows.Forms.ToolStripButton();
+            this.btnRepeat = new System.Windows.Forms.ToolStripButton();
+            this.tsSelectMode = new System.Windows.Forms.ToolStrip();
+            this.chSelectBones = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -80,10 +81,10 @@
             this.tsmRemoveBone = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmExtractBone = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmCreateBoneGraphics = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctxImageMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxGraphicsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmDownloadImage = new System.Windows.Forms.ToolStripMenuItem();
-            this.picMain = new SelectablePictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tsmRemoveGraphics = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,10 +92,11 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            this.tsFile.SuspendLayout();
-            this.tsSelectMode.SuspendLayout();
-            this.tsAnimation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picMain)).BeginInit();
             this.tsBoneEditor.SuspendLayout();
+            this.tsFile.SuspendLayout();
+            this.tsAnimation.SuspendLayout();
+            this.tsSelectMode.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
@@ -102,8 +104,7 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.ctxBoneMenu.SuspendLayout();
-            this.ctxImageMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picMain)).BeginInit();
+            this.ctxGraphicsMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -129,7 +130,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.picMain);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(581, 404);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(581, 329);
             this.toolStripContainer1.ContentPanel.Load += new System.EventHandler(this.toolStripContainer1_ContentPanel_Load);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -145,114 +146,13 @@
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.tsAnimation);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.tsSelectMode);
             // 
-            // tsFile
+            // picMain
             // 
-            this.tsFile.Dock = System.Windows.Forms.DockStyle.None;
-            this.tsFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSave,
-            this.btnOpen,
-            this.btnNew});
-            this.tsFile.Location = new System.Drawing.Point(165, 0);
-            this.tsFile.Name = "tsFile";
-            this.tsFile.Size = new System.Drawing.Size(81, 25);
-            this.tsFile.TabIndex = 5;
-            // 
-            // btnSave
-            // 
-            this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSave.Image = global::BAnimator_WinForms.Properties.Resources.disk;
-            this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(23, 22);
-            this.btnSave.Text = "Сохранить персонажа";
-            // 
-            // btnOpen
-            // 
-            this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnOpen.Image = global::BAnimator_WinForms.Properties.Resources.folder_horizontal_open;
-            this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(23, 22);
-            this.btnOpen.Text = "Открыть";
-            // 
-            // btnNew
-            // 
-            this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNew.Image = global::BAnimator_WinForms.Properties.Resources.document;
-            this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(23, 22);
-            this.btnNew.Text = "Новый персонаж";
-            // 
-            // tsSelectMode
-            // 
-            this.tsSelectMode.Dock = System.Windows.Forms.DockStyle.None;
-            this.tsSelectMode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.chSelectBones});
-            this.tsSelectMode.Location = new System.Drawing.Point(353, 0);
-            this.tsSelectMode.Name = "tsSelectMode";
-            this.tsSelectMode.Size = new System.Drawing.Size(35, 25);
-            this.tsSelectMode.TabIndex = 4;
-            // 
-            // chSelectBones
-            // 
-            this.chSelectBones.CheckOnClick = true;
-            this.chSelectBones.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.chSelectBones.Image = global::BAnimator_WinForms.Properties.Resources.Animals_Dog_Bone_icon;
-            this.chSelectBones.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.chSelectBones.Name = "chSelectBones";
-            this.chSelectBones.Size = new System.Drawing.Size(23, 22);
-            this.chSelectBones.Text = "Выбирать кости";
-            // 
-            // tsAnimation
-            // 
-            this.tsAnimation.Dock = System.Windows.Forms.DockStyle.None;
-            this.tsAnimation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSkipToStart,
-            this.btnPlayPause,
-            this.btnSkipToEnd,
-            this.btnRepeat});
-            this.tsAnimation.Location = new System.Drawing.Point(247, 0);
-            this.tsAnimation.Name = "tsAnimation";
-            this.tsAnimation.Size = new System.Drawing.Size(104, 25);
-            this.tsAnimation.TabIndex = 3;
-            // 
-            // btnSkipToStart
-            // 
-            this.btnSkipToStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSkipToStart.Image = global::BAnimator_WinForms.Properties.Resources.control_skip_180_8636;
-            this.btnSkipToStart.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSkipToStart.Name = "btnSkipToStart";
-            this.btnSkipToStart.Size = new System.Drawing.Size(23, 22);
-            this.btnSkipToStart.Text = "В начало";
-            // 
-            // btnPlayPause
-            // 
-            this.btnPlayPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPlayPause.Image = global::BAnimator_WinForms.Properties.Resources.control_8113;
-            this.btnPlayPause.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPlayPause.Name = "btnPlayPause";
-            this.btnPlayPause.Size = new System.Drawing.Size(23, 22);
-            this.btnPlayPause.Text = "Воспроизвести";
-            // 
-            // btnSkipToEnd
-            // 
-            this.btnSkipToEnd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSkipToEnd.Image = global::BAnimator_WinForms.Properties.Resources.control_skip_3345;
-            this.btnSkipToEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSkipToEnd.Name = "btnSkipToEnd";
-            this.btnSkipToEnd.Size = new System.Drawing.Size(23, 22);
-            this.btnSkipToEnd.Text = "В конец";
-            // 
-            // btnRepeat
-            // 
-            this.btnRepeat.CheckOnClick = true;
-            this.btnRepeat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRepeat.Image = global::BAnimator_WinForms.Properties.Resources.arrow_repeat;
-            this.btnRepeat.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRepeat.Name = "btnRepeat";
-            this.btnRepeat.Size = new System.Drawing.Size(23, 22);
-            this.btnRepeat.Text = "Повтор";
+            this.picMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picMain.Location = new System.Drawing.Point(0, 0);
+            this.picMain.Name = "picMain";
+            this.picMain.Size = new System.Drawing.Size(581, 329);
+            this.picMain.TabIndex = 0;
             // 
             // tsBoneEditor
             // 
@@ -265,7 +165,7 @@
             this.toolStripSeparator1,
             this.btnBEM_Grid,
             this.btnBEM_GridSnap});
-            this.tsBoneEditor.Location = new System.Drawing.Point(9, 0);
+            this.tsBoneEditor.Location = new System.Drawing.Point(3, 75);
             this.tsBoneEditor.Name = "tsBoneEditor";
             this.tsBoneEditor.Size = new System.Drawing.Size(156, 25);
             this.tsBoneEditor.TabIndex = 1;
@@ -335,6 +235,115 @@
             this.btnBEM_GridSnap.Size = new System.Drawing.Size(23, 22);
             this.btnBEM_GridSnap.Text = "Привязка к сетке";
             this.btnBEM_GridSnap.Click += new System.EventHandler(this.btnBEM_GridSnap_Click);
+            // 
+            // tsFile
+            // 
+            this.tsFile.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSave,
+            this.btnOpen,
+            this.btnNew});
+            this.tsFile.Location = new System.Drawing.Point(69, 50);
+            this.tsFile.Name = "tsFile";
+            this.tsFile.Size = new System.Drawing.Size(81, 25);
+            this.tsFile.TabIndex = 5;
+            // 
+            // btnSave
+            // 
+            this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSave.Image = global::BAnimator_WinForms.Properties.Resources.disk;
+            this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(23, 22);
+            this.btnSave.Text = "Сохранить персонажа";
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnOpen.Image = global::BAnimator_WinForms.Properties.Resources.folder_horizontal_open;
+            this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(23, 22);
+            this.btnOpen.Text = "Открыть";
+            // 
+            // btnNew
+            // 
+            this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnNew.Image = global::BAnimator_WinForms.Properties.Resources.document;
+            this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(23, 22);
+            this.btnNew.Text = "Новый персонаж";
+            // 
+            // tsAnimation
+            // 
+            this.tsAnimation.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsAnimation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSkipToStart,
+            this.btnPlayPause,
+            this.btnSkipToEnd,
+            this.btnRepeat});
+            this.tsAnimation.Location = new System.Drawing.Point(46, 25);
+            this.tsAnimation.Name = "tsAnimation";
+            this.tsAnimation.Size = new System.Drawing.Size(104, 25);
+            this.tsAnimation.TabIndex = 3;
+            // 
+            // btnSkipToStart
+            // 
+            this.btnSkipToStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSkipToStart.Image = global::BAnimator_WinForms.Properties.Resources.control_skip_180_8636;
+            this.btnSkipToStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSkipToStart.Name = "btnSkipToStart";
+            this.btnSkipToStart.Size = new System.Drawing.Size(23, 22);
+            this.btnSkipToStart.Text = "В начало";
+            // 
+            // btnPlayPause
+            // 
+            this.btnPlayPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPlayPause.Image = global::BAnimator_WinForms.Properties.Resources.control_8113;
+            this.btnPlayPause.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPlayPause.Name = "btnPlayPause";
+            this.btnPlayPause.Size = new System.Drawing.Size(23, 22);
+            this.btnPlayPause.Text = "Воспроизвести";
+            // 
+            // btnSkipToEnd
+            // 
+            this.btnSkipToEnd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSkipToEnd.Image = global::BAnimator_WinForms.Properties.Resources.control_skip_3345;
+            this.btnSkipToEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSkipToEnd.Name = "btnSkipToEnd";
+            this.btnSkipToEnd.Size = new System.Drawing.Size(23, 22);
+            this.btnSkipToEnd.Text = "В конец";
+            // 
+            // btnRepeat
+            // 
+            this.btnRepeat.CheckOnClick = true;
+            this.btnRepeat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRepeat.Image = global::BAnimator_WinForms.Properties.Resources.arrow_repeat;
+            this.btnRepeat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRepeat.Name = "btnRepeat";
+            this.btnRepeat.Size = new System.Drawing.Size(23, 22);
+            this.btnRepeat.Text = "Повтор";
+            // 
+            // tsSelectMode
+            // 
+            this.tsSelectMode.Dock = System.Windows.Forms.DockStyle.None;
+            this.tsSelectMode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.chSelectBones});
+            this.tsSelectMode.Location = new System.Drawing.Point(115, 0);
+            this.tsSelectMode.Name = "tsSelectMode";
+            this.tsSelectMode.Size = new System.Drawing.Size(35, 25);
+            this.tsSelectMode.TabIndex = 4;
+            // 
+            // chSelectBones
+            // 
+            this.chSelectBones.CheckOnClick = true;
+            this.chSelectBones.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.chSelectBones.Image = global::BAnimator_WinForms.Properties.Resources.Animals_Dog_Bone_icon;
+            this.chSelectBones.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.chSelectBones.Name = "chSelectBones";
+            this.chSelectBones.Size = new System.Drawing.Size(23, 22);
+            this.chSelectBones.Text = "Выбирать кости";
             // 
             // tabControl1
             // 
@@ -535,12 +544,13 @@
             this.tsmCreateBoneGraphics.Text = "Создать графику";
             this.tsmCreateBoneGraphics.Click += new System.EventHandler(this.tsmCreateBoneGraphics_Click);
             // 
-            // ctxImageMenu
+            // ctxGraphicsMenu
             // 
-            this.ctxImageMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmDownloadImage});
-            this.ctxImageMenu.Name = "ctxImageMenu";
-            this.ctxImageMenu.Size = new System.Drawing.Size(206, 48);
+            this.ctxGraphicsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmDownloadImage,
+            this.tsmRemoveGraphics});
+            this.ctxGraphicsMenu.Name = "ctxImageMenu";
+            this.ctxGraphicsMenu.Size = new System.Drawing.Size(206, 70);
             // 
             // tsmDownloadImage
             // 
@@ -550,13 +560,13 @@
             this.tsmDownloadImage.Text = "Загрузить изображение";
             this.tsmDownloadImage.Click += new System.EventHandler(this.tsmDownloadImage_Click);
             // 
-            // picMain
+            // tsmRemoveGraphics
             // 
-            this.picMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picMain.Location = new System.Drawing.Point(0, 0);
-            this.picMain.Name = "picMain";
-            this.picMain.Size = new System.Drawing.Size(581, 404);
-            this.picMain.TabIndex = 0;
+            this.tsmRemoveGraphics.Image = global::BAnimator_WinForms.Properties.Resources.cross;
+            this.tsmRemoveGraphics.Name = "tsmRemoveGraphics";
+            this.tsmRemoveGraphics.Size = new System.Drawing.Size(205, 22);
+            this.tsmRemoveGraphics.Text = "Удалить графику";
+            this.tsmRemoveGraphics.Click += new System.EventHandler(this.tsmRemoveGraphics_Click);
             // 
             // frmMain
             // 
@@ -578,14 +588,15 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            this.tsFile.ResumeLayout(false);
-            this.tsFile.PerformLayout();
-            this.tsSelectMode.ResumeLayout(false);
-            this.tsSelectMode.PerformLayout();
-            this.tsAnimation.ResumeLayout(false);
-            this.tsAnimation.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picMain)).EndInit();
             this.tsBoneEditor.ResumeLayout(false);
             this.tsBoneEditor.PerformLayout();
+            this.tsFile.ResumeLayout(false);
+            this.tsFile.PerformLayout();
+            this.tsAnimation.ResumeLayout(false);
+            this.tsAnimation.PerformLayout();
+            this.tsSelectMode.ResumeLayout(false);
+            this.tsSelectMode.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
@@ -593,8 +604,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.ctxBoneMenu.ResumeLayout(false);
-            this.ctxImageMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picMain)).EndInit();
+            this.ctxGraphicsMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -629,7 +639,7 @@
         private System.Windows.Forms.PropertyGrid propertyGrid2;
         private System.Windows.Forms.ToolStripButton btnBEM_STRETCH;
         private SelectablePictureBox picMain;
-        private System.Windows.Forms.ContextMenuStrip ctxImageMenu;
+        private System.Windows.Forms.ContextMenuStrip ctxGraphicsMenu;
         private System.Windows.Forms.ToolStripMenuItem tsmDownloadImage;
         private System.Windows.Forms.ToolStrip tsFile;
         private System.Windows.Forms.ToolStripButton btnSave;
@@ -637,6 +647,7 @@
         private System.Windows.Forms.ToolStripButton btnNew;
         private System.Windows.Forms.ToolStripMenuItem tsmCreateBoneGraphics;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem tsmRemoveGraphics;
     }
 }
 

@@ -85,7 +85,7 @@ namespace BAnimator.Utilities
         /// </summary>
         /// <param name="x">Координата X</param>
         /// <param name="y">Координата Y</param>
-        /// <param name="asVector">Если true, то X - принимается за угол, Y - за длину</param>
+        /// <param name="Polar">Если true, то X - принимается за угол, Y - за длину</param>
         public PointV(double x, double y, bool Polar = false)
         {
             if (!Polar)
@@ -133,6 +133,15 @@ namespace BAnimator.Utilities
 
         #region Static functions
         //------------------------STATIC
+        public static implicit operator PointV(PointF p)
+        {
+            return new PointV(p);
+        }
+        public static implicit operator PointF(PointV p)
+        {
+            return p.Point;
+        }
+
         public static PointF Add(ref PointF p1, ref PointF p2)
         {
             return new PointF(p1.X + p2.X, p1.Y + p2.Y);
@@ -149,6 +158,13 @@ namespace BAnimator.Utilities
         public static PointF Sub(PointF p1, PointF p2)
         {
             return new PointF(p1.X - p2.X, p1.Y - p2.Y);
+        }
+
+        public static PointV Rotate(PointF p, double angle)
+        {
+            //Переделать
+            PointV pt = new PointV(p);
+            return pt.Rotate(angle);
         }
         
         #endregion

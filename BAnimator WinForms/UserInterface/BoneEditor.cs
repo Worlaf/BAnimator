@@ -12,6 +12,8 @@ namespace BAnimator_WinForms.UserInterface
 {
     public class BoneEditor
     {
+        //Тут лучше даже не пытаться разобраться
+        //Самый страшный класс во всем проекте
         public enum EditModes { None, BONE_ROTATE, BONE_SHIFT, BONE_STRETCH, BONE_STRETCH_ROTATE }
         public enum SelectModes { None = 0x0, Bones = 0x1 }
 
@@ -36,6 +38,7 @@ namespace BAnimator_WinForms.UserInterface
         protected EditModes editMode;
 
         protected Bone selectedBone = null;
+        protected Object selectedObject = null;
 
 
         #region Bones TreeView
@@ -112,7 +115,7 @@ namespace BAnimator_WinForms.UserInterface
         }
 
         #endregion
-
+        
         #region Bones Node
         TreeNode parentBoneNode;
         public void SetBoneNode(TreeNode node)
@@ -157,7 +160,7 @@ namespace BAnimator_WinForms.UserInterface
             TreeNode node, node2;
             for (i = 0; i < Character.GraphicsManager.Count; i++)
             {
-                node = parentImageNode.Nodes.Add("boneGraphics" + i, Character.GraphicsManager[i].Bone.Name + " graphics " + i, "graphics");
+                node = parentImageNode.Nodes.Add("boneGraphics" + i, Character.GraphicsManager[i].Parent.Name + " graphics " + i, "graphics");
                 node.Tag = Character.GraphicsManager[i];
                 node.SelectedImageKey = "graphics";
                 for (j = 0; j < Character.GraphicsManager[i].Count; j++)
@@ -170,6 +173,29 @@ namespace BAnimator_WinForms.UserInterface
 
         
 
+
+        #endregion
+
+        #region Main TreeView
+        protected TreeView mainTree;
+        public void SetMainTree(TreeView tvw)
+        {
+            if (mainTree != null)
+            {
+                mainTree.AfterSelect -= mainTree_AfterSelect;
+            }
+            mainTree = tvw;
+            mainTree.AfterSelect += mainTree_AfterSelect;
+        }
+
+        void mainTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Tag as Bone != null)
+            {
+                selectedBone = (Bone)e.Node.Tag;
+            }
+            Redraw();
+        }
 
         #endregion
 
@@ -252,7 +278,7 @@ namespace BAnimator_WinForms.UserInterface
 
             BoneGraphics bg;
             Character.GraphicsManager.Add(bg = new BoneGraphics(Character));
-            bg.Bone = bone;
+            bg.SetParent(bone);
             if (parentImageNode == null)
                 return;
             TreeNode node = parentImageNode.Nodes.Add("boneGraphics" + (Character.GraphicsManager.Count - 1),
@@ -276,6 +302,7 @@ namespace BAnimator_WinForms.UserInterface
             TreeNode node = parentImageNode.Nodes.Find("boneGraphics" + idx, false)[0];
             TreeNode node2 = node.Nodes.Add("boneImage" + (bg.Count - 1), "image " + (bg.Count - 1), "image", "image");
             node2.Tag = bi;
+            bi.Shift = new PointF(0, -bi.Image.Width / 2);
             node2.EnsureVisible();
 
             Redraw();
@@ -283,10 +310,12 @@ namespace BAnimator_WinForms.UserInterface
 
         public void RemoveGraphics(BoneGraphics bg)
         {
+            //РЕАЛИЗОВАТЬ
         }
 
         public void RemoveImage(BoneImage img, BoneGraphics bg)
         {
+            //РЕАЛИЗОВАТЬ
         }
         #endregion
 
@@ -353,32 +382,55 @@ namespace BAnimator_WinForms.UserInterface
 
         void picBox_MouseMove(object sender, MouseEventArgs e)
         {
+            //Тут жесть полнейшая
+
+            //Проверка, теряло ли изображение фокус
+            //чтобы при получении фокуса сразу же не происходило редактирование
             if (picLostFocus)
                 return;
             
             if (e.Button == MouseButtons.Left)
             {
+
                 if (selectedBone == null)
                     return;
+               
+
                 PointF loc = e.Location;
+
+                //Если нужно, приводим координаты к сетке
                 if (SnapGrid)
                 {
                     loc.X = (((int)loc.X) / GreedStep) * GreedStep;
                     loc.Y = (((int)loc.Y) / GreedStep) * GreedStep;
                 }
+
+                
                 ToRootBoneCoordinates(ref loc);
-                PointV p = new PointV(loc);
-                PointV p0 = new PointV(selectedBone.StartPoint);
-                PointV p1 = new PointV(selectedBone.EndPoint);
-                PointV pv = p - p0;
-                PointV sv = p1 - p0;
+
+                PointV p = null, p0 = null, p1 = null , sv = null , pv = null;
+                p = new PointV(loc);
+                                   
+                    p0 = new PointV(selectedBone.StartPoint);
+                    p1 = new PointV(selectedBone.EndPoint);
+                    pv = p - p0;
+                    sv = p1 - p0;
+               
+
                 switch (editMode)
                 {
                     case EditModes.BONE_ROTATE:
-                        double da = pv.Angle - sv.Angle;
+                        #region Вращение
+                        double da;
+
+                        da = pv.Angle - sv.Angle;
                         selectedBone.Angle = selectedBone.Angle + da;
+
                         break;
+                        #endregion
                     case EditModes.BONE_SHIFT:
+                        #region Сдвиг
+
                         if (!selectedBone.IsRoot)
                         {
                             PointV shift = new PointV(PointV.Sub(loc, selectedBone.Parent.EndPoint));
@@ -389,17 +441,29 @@ namespace BAnimator_WinForms.UserInterface
                         {
                             screenCenter = e.Location;
                         }
+
                         break;
+                        #endregion
                     case EditModes.BONE_STRETCH:
+                        #region Растяжение
+
                         double proj = (pv.X * sv.X + pv.Y * sv.Y) / sv.Length;
                         selectedBone.Length = proj;
+
                         break;
+                        #endregion
                     case EditModes.BONE_STRETCH_ROTATE:
+                        #region Растяжение и вращение
+
+                       
                         da = pv.Angle - sv.Angle;
                         selectedBone.Angle = selectedBone.Angle + da;
                         proj = (pv.X * sv.X + pv.Y * sv.Y) / sv.Length;
                         selectedBone.Length = proj;
+
                         break;
+                        #endregion
+
                 }
                 Redraw();
             }
@@ -559,6 +623,8 @@ namespace BAnimator_WinForms.UserInterface
 
             graph.Clear(Color.White);
 
+            Character.GraphicsManager.Draw(graph, PointV.Add(ref rootPos, ref screenCenter));
+
             BoneDrawer.DrawParametres p = BoneDrawer.DrawParametres.None;
             if (editMode == EditModes.BONE_ROTATE)
                 p = BoneDrawer.DrawParametres.DrawAngleCtl;
@@ -587,54 +653,9 @@ namespace BAnimator_WinForms.UserInterface
             {
                 BoneDrawer.DrawControls(graph, PointV.Add(ref rootPos, ref screenCenter), selectedBone, p);
             }
+            
 
-            #region Distance test
-            if (selectedBone != null && drawDistanceTestPoints)
-            {
-               
-                int step = 2;
-                PointF pt = PointF.Empty;
-                Pen pen = new Pen(Color.Red);
-                pen.Width = 3f;
-                double dist;
-                for (i = 0; i < pic.Width; i+=step)
-                {
-                    for (j = 0; j < pic.Height; j+=step)
-                    {
-                        pt.X = i;
-                        pt.Y = j;
-                        ToRootBoneCoordinates(ref pt);
-                        dist = Math.Abs(VMath.GetDistance(selectedBone.StartPoint, selectedBone.EndPoint, pt));
-                        
-                        if (dist < 5)
-                        {
-                           graph.FillRectangle(Brushes.Red, i, j, step, step);
-                        }
-                        else if (dist < 10)
-                        {
-                            graph.FillRectangle(Brushes.Green, i, j, step, step);
-                        }
-                        else if (dist < 20)
-                        {
-                            graph.FillRectangle(Brushes.Blue, i, j, step, step);
-                        }
-                        else if (dist == 100)
-                        {
-                            graph.FillRectangle(Brushes.Yellow, i, j, step, step);
-                        }
-                        else
-                        {
-                            //graph.DrawLine(Pens.Green, i, j, i + 1, j + 1);
-                        }
-                        
-                    }
-                }
-                
-            }
-            drawDistanceTestPoints = false;
-            #endregion
-
-            Character.GraphicsManager.Draw(graph, PointV.Add(ref rootPos, ref screenCenter));
+          
 
             pic.Refresh();
         }
